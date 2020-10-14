@@ -1,16 +1,17 @@
- version: 2.1
+version: 2.1
 
- orbs:
+orbs:
   win: circleci/windows@2.2.0
-  coveralls: coveralls/coveralls@1.0.6
+  codecov: codecov/codecov@1.0.2
 
- jobs:
-   build:
-     executor: win/default     
+jobs:
+  build:
+    executor: win/default     
     
-     steps:
-       - checkout
-       - run: dotnet restore SimpleWebAPI
-       - run: dotnet build SimpleWebAPI
-       - run: dotnet test SimpleWebAPI/SimpleWebAPI.Test/SimpleWebAPI.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
-       - coveralls/upload
+    steps:
+      - checkout
+      - run: dotnet restore SimpleWebAPI
+      - run: dotnet build SimpleWebAPI
+      - run: dotnet test SimpleWebAPI/SimpleWebAPI.Test/SimpleWebAPI.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      - codecov/upload:
+          file: SimpleWebAPI/SimpleWebAPI.Test
